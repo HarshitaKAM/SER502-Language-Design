@@ -1,0 +1,70 @@
+P is Program
+K is Block
+D is Declaration
+SL is Statement List
+DT is data types
+S is Statement
+A is Assignment Statement
+IF is If Statement
+W is While Statement
+B is Boolean Expression
+E is Arithmetic Expression
+EX is Multiplication or Division Arithmetic Expression
+I is Identifier
+N is Number
+INT is integer data type
+BOOL is boolean type 
+DG is Digit
+L is Letter
+
+P ::= 'start' K 'end' 
+K ::= '[' D '.' SL ']' | 
+	'[' SL ']'  
+D ::= DT SL '.' D |
+	DT SL ‘.’
+	
+DT ::= INT | BOOL 
+				
+SL ::= S '.' SL |
+	S '.' |
+	K	
+				
+S ::= A | IF | W
+
+A ::= I 'is' E
+
+IF ::= 'if' '(' B ')' K 'else' K 
+
+W ::= 'while' '(' B ')' K 
+
+B ::= T | 
+	F | 
+	E '=:' E |  
+	'!!' E | 
+	E '<<' E |
+	E '>>' E		
+
+E ::= EX '+' E |
+	EX '-' E |    // left associative???
+	EX
+		
+EX ::= I '*' EX |
+	N '*' EX |
+	I '/' EX |
+	N '/' EX |
+	I |
+	N
+		
+I ::= L I | 
+	L
+
+N ::= DG N | 
+	DG
+
+INT ::= [0-9]+
+
+BOOL ::= 'true'|'false'
+	
+DG ::= [0-9]+
+
+L ::= ('a'..'z' | 'A'..'Z')*
