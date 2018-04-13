@@ -1,8 +1,8 @@
 P is Program
 K is Block
 D is Declaration
-SL is Statement List
 DT is data types
+SL is Statement List
 S is Statement
 A is Assignment Statement
 IF is If Statement
