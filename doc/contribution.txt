@@ -1,4 +1,4 @@
-Milestone 2:
+﻿Milestone 2:
 The duration for this was from 3/24 to 4/6
 
 Team member names:
@@ -37,3 +37,12 @@ All the members of the team will have individual branches on GitHub through whic
 1-2 meetings will be held per week where we will measure progress and make corrections. 
 
 ** The details of parsing techniques, interpreter and environment are mentioned in the Word document that is submitted for Milestone 2.
+
+
+*******Discussion: 4/10**********
+We divided the tasks to be completed. We will use partner programming for our next set of tasks.
+The next deadline we set will be Sunday, 4/15. Partners should have their initial version completed by this date.
+
+Tokenizer: Behnaz & Harshita
+Parser: Melissa & Sowmya
+Deadline: Sunday, 4/15
