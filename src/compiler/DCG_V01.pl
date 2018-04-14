@@ -105,10 +105,10 @@ multDivExpr(t_multDivExpr(X, Y)) --> num(X),
 										[*], 
 										multDivExpr(Y).
 multDivExpr(t_multDivExpr(X, Y)) --> ident(X), 
-										[\],     *************Change direction of this??
+										[/],     *************Change direction of this??
 										multDivExpr(Y).
 multDivExpr(t_multDivExpr(X, Y)) --> num(X), 
-										[\], 
+										[/], 
 										multDivExpr(Y).
 multDivExpr(t_multDivExpr(X)) --> ident(X).
 multDivExpr(t_multDivExpr(X)) --> num(X).
