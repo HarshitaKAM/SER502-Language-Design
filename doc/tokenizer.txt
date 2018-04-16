@@ -1,0 +1,25 @@
+module(lexer,[tokenize/2,tokenize_from_file/2]).
+
+tokenize(String,Tokens) :- string_to_list(String,Codes),
+			   phrase(token2(Tokens),Codes).
+
+tokenize_from_file(File,Tokens) :- phrase_from_file(token2(Tokens),File).
+
+stuffs(H) :- member(H,[int,bool,true,false,if,else,while]).
+
+token2([])--> blanks.
+token2([H|T]) --> blanks, token(H), token2(T).
+
+token(separator) --> ".".
+token(assignment) --> "is".
+token(comparator) --> "=".
+token(less)--> "<<".
+token(greater)--> ">>".
+token(not)--> "!!".
+token(begin)--> "[".
+token(end) --> "]".
+token(add) --> "+".
+token(subtract) --> "-".
+token(multiply) --> "*".
+token(divide) --> "/".
+
