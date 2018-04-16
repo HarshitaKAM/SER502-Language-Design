@@ -1,9 +1,11 @@
 % DCG (Parser) for language
 % Author: Melissa Day
-% Version: 1.0
-% Date: 4/13/18
+% Version: 1.2
+% Date: 4/14/18
 
 % Program
+
+
 program(t_program(X)) --> [start], 
 							block(X), 
 							[end].
@@ -46,24 +48,26 @@ stmt(t_stmt(X)) --> ifStmt(X).
 stmt(t_stmt(X)) --> whileStmt(X).
 
 % Assignment Statement
-assignStmt(t_assignStmt(X, Y)) --> ident(X) [is] arithExpr(Y). 
+assignStmt(t_assignStmt(X, Y)) --> ident(X),
+									[is],
+									arithExpr(Y). 
 
 % If Statement
 % *****Treat if and open ( as separate tokens? Or should be: [if (]   ???
-ifStmt(t_ifStmt(X, Y, Z)) --> [if], 
-								[(], 
+ifStmt(t_ifStmt(X, Y, Z)) --> ['if'], 
+								['('], 
 								boolExpr(X), 
-								[)], 
+								[')'], 
 								block(Y), 
-								[else], 
+								['else'], 
 								block(Z).
 
 % While Statement
 % ******Treat if and open ( as separate tokens? Or should be: [while (]   ???
-whileStmt(t_whileStmt(X, Y)) --> [while], 
-									[(], 
+whileStmt(t_whileStmt(X, Y)) --> ['while'], 
+									['('], 
 									boolExpr(X), 
-									[)], 
+									[')'], 
 									block(Y).
 
 % Boolean Expression
@@ -73,42 +77,42 @@ boolExpr(true) --> [true].
 boolExpr(false) --> [false].
 % Comparator
 boolExpr(t_boolExpr(X, Y)) --> arithExpr(X),
-							[=:],
+							['=:'],
 							arithExpr(Y).
 % Not
-boolExpr(t_boolExpr(X)) --> [!!],
+boolExpr(t_boolExpr(X)) --> ['!!'],
 							arithExpr(X).
 % Less than
 boolExpr(t_boolExpr(X, Y)) --> arithExpr(X),
-							[<<],
+							['<<'],
 							arithExpr(Y).							
 % Greater than
 boolExpr(t_boolExpr(X, Y)) --> arithExpr(X),
-							[>>],
+							['>>'],
 							arithExpr(Y).	
 							
 
 % Arithmetic Expression: Addition and Subtraction
 arithExpr(t_arithExpr(X, Y)) --> multDivExpr(X),
-									[+],
+									['+'],
 									arithExpr(Y).
 arithExpr(t_arithExpr(X, Y)) --> multDivExpr(X),
-									[-],
+									['-'],
 									arithExpr(Y).
 arithExpr(t_arithExpr(X)) --> multDivExpr(X).
 
 % Arithmetic Expression: Multiplication and Division
 multDivExpr(t_multDivExpr(X, Y)) --> ident(X), 
-										[*], 
+										['*'], 
 										multDivExpr(Y).
 multDivExpr(t_multDivExpr(X, Y)) --> num(X), 
-										[*], 
+										['*'], 
 										multDivExpr(Y).
 multDivExpr(t_multDivExpr(X, Y)) --> ident(X), 
-										[/],     *************Change direction of this??
+										['/'],     			
 										multDivExpr(Y).
 multDivExpr(t_multDivExpr(X, Y)) --> num(X), 
-										[/], 
+										['/'], 
 										multDivExpr(Y).
 multDivExpr(t_multDivExpr(X)) --> ident(X).
 multDivExpr(t_multDivExpr(X)) --> num(X).
@@ -116,7 +120,7 @@ multDivExpr(t_multDivExpr(X)) --> num(X).
 % Identifier
 ident(t_ident(X, Y)) --> letter(X), 
 							ident(Y).
-ident(t_ident(X, Y)) --> letter(Y).
+ident(t_ident(X)) --> letter(X).
 
 % Number
 num(t_num(X, Y)) --> digit(X),
