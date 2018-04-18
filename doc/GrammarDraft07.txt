@@ -1,0 +1,94 @@
+﻿P is Program
+K is Block
+D is Declaration
+DT is data types
+SL is Statement List
+S is Statement
+A is Assignment Statement
+IF is If Statement
+W is While Statement
+B is Boolean Expression
+E is Arithmetic Expression
+EX is Multiplication or Division Arithmetic Expression
+I is Identifier
+N is Number
+INT is integer data type
+BOOL is boolean type 
+DG is Digit
+L is Letter
+RES is resolution of addition or subtraction
+RESMD is resolution of multiplication or division
+
+P ::= 'start' K 'end' 
+K ::= '[' D SL ']' | // Removed extra period
+	'[' SL ']'  
+D ::= DT I '.' D |		// Fixed for adding assignment
+	DT I ‘.’ |
+	DT A '.' D |
+	DT A '.'
+	
+DT ::= 'int' | 'bool' 	// fixed/updated
+				
+SL ::= S '.' SL |
+	S '.' |
+	K	
+				
+S ::= A | IF | W
+
+A ::= I 'is' E
+
+IF ::= 'if' '(' B ')' K 'else' K 	
+									
+W ::= 'while' '(' B ')' K 			
+
+B ::= 'true' | 
+	'false' | 
+	E '=:' E |  
+	'!!' E | 
+	E '<<' E |
+	E '>>' E		
+
+E ::= EX '+' E |
+	EX '-' E |    // not left associative 
+	EX
+	
+
+// Option 1: not left associative -- but this introduces left-recursion...
+E ::= E '+' EX |
+	E '-' EX |    
+	EX	
+
+	
+// Option 2:
+E ::= EX RES 
+
+RES ::= '+' E RES
+
+=========================================
+
+// Are these left associative??
+EX ::= I '*' EX |	
+	N '*' EX |
+	I '/' EX |
+	N '/' EX |
+	I |
+	N
+
+// If not, could they be resolved like this?
+EX ::= I RESMD |
+		N RESMD |
+		I |
+		N
+
+RESMD ::= '*' EX RESMD |
+			'/' EX RESMD
+		
+I ::= L I | 
+	L
+
+N ::= DG N | 
+	DG
+	
+DG ::= [0-9]+
+
+L ::= ('a'..'z' | 'A'..'Z')*
