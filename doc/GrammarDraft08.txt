@@ -18,6 +18,7 @@ DG is Digit
 L is Letter
 RES is resolution of addition or subtraction
 RESMD is resolution of multiplication or division
+FACTOR is a part (factor) of a multiplication or division expression
 
 P ::= 'start' K 'end' 
 K ::= '[' D SL ']' | // Removed extra period
@@ -48,40 +49,24 @@ B ::= 'true' |
 	E '<<' E |
 	E '>>' E		
 
-E ::= EX '+' E |
-	EX '-' E |    // not left associative 
-	EX
-	
+==================================
+// Left associativity fixed
+E ::= EX RES |
+		EX
 
-// Option 1: not left associative -- but this introduces left-recursion...
-E ::= E '+' EX |
-	E '-' EX |    
-	EX	
+RES ::= '+' EX RES |
+		'-' EX RES
 
-	
-// Option 2:
-E ::= EX RES 
+// Left associativity fixed
+EX ::= FACTOR RESMD |
+		FACTOR
 
-RES ::= '+' E RES
+RESMD ::= '*' FACTOR RESMD |
+			'/' FACTOR RESMD
 
-=========================================
+FACTOR ::= I | N
 
-// Are these left associative??
-EX ::= I '*' EX |	
-	N '*' EX |
-	I '/' EX |
-	N '/' EX |
-	I |
-	N
-
-// If not, could they be resolved like this?
-EX ::= I RESMD |
-		N RESMD |
-		I |
-		N
-
-RESMD ::= '*' EX RESMD |
-			'/' EX RESMD
+==========================================
 		
 I ::= L I | 
 	L
