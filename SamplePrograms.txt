@@ -1,0 +1,33 @@
+% Sample Programs
+
+% 1 
+start
+[
+int p is 2.
+q is 3.
+]
+end
+ 
+% Execution -
+?- L =['start','[','int',p,'is',2,'.',q,'is',3,'.',']','end'],program(P,L,[]).
+
+% o/p - 
+L = [start, '[', int, p, (is), 2, ('.'), q, (is), 3, ('.'), ']', end],
+P = parsetree(block(dec(dtype(int), assign(iden(letter(p)), arithexp(exp(factor(num(digit(2))))))), slist(stmt(assign(iden(letter(q)), arithexp(exp(factor(num(digit(3))))))))))
+
+% 2
+start
+[
+while(true)
+[
+b is 4.
+].
+]
+end
+
+% Execution -
+?- L =['start','[','while','(',true,')','[',b,'is',4,'.',']','.',']','end'],program(P,L,[]).
+
+% o/p -
+L = [start, '[', while, '(', true, ')', '[', b, (is), 4, ('.'), ']', ('.'), ']', end],
+P = parsetree(block(slist(stmt(while(boolexp(true), block(slist(stmt(assign(iden(letter(b)), arithexp(exp(factor(num(digit(4))))))))))))))
