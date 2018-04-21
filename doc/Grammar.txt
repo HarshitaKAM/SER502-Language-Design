@@ -1,4 +1,4 @@
-﻿P is Program
+P is Program
 K is Block
 D is Declaration
 DT is data types
@@ -55,14 +55,16 @@ E ::= EX RES |
 		EX
 
 RES ::= '+' EX RES |
-		'-' EX RES
+		'-' EX RES |
+			‘+’ EX | ‘-‘ EX 
 
 // Left associativity fixed
 EX ::= FACTOR RESMD |
 		FACTOR
 
 RESMD ::= '*' FACTOR RESMD |
-			'/' FACTOR RESMD
+			'/' FACTOR RESMD |
+					‘*’ FACTOR | ‘/‘ FACTOR
 
 FACTOR ::= I | N
 
