@@ -31,3 +31,50 @@ end
 % o/p -
 L = [start, '[', while, '(', true, ')', '[', b, (is), 4, ('.'), ']', ('.'), ']', end],
 P = parsetree(block(slist(stmt(while(boolexp(true), block(slist(stmt(assign(iden(letter(b)), arithexp(exp(factor(num(digit(4))))))))))))))
+
+% 3
+start
+[
+int ab.
+int c.
+d is 0.
+e is 1.
+]
+end
+
+% Execution - 
+?- L =['start','[','int',a,b,'.','int',c,'.',d,'is',0,'.',e,'is',1,'.',']',end],program(P,L,[]).
+
+% o/p -
+L = [start, '[', int, a, b, ('.'), int, c, ('.'), d, (is), 0, ('.'), e, (is), 1, ('.'), ']', end],
+P = parsetree(block(dec(dtype(int), iden(letter(a), iden(letter(b))), dec(dtype(int), iden(letter(c)))), slist(stmt(assign(iden(letter(d)), arithexp(exp(factor(num(digit(0))))))), slist(stmt(assign(iden(letter(e)), arithexp(exp(factor(num(digit(1)))))))))))
+
+% 4
+start
+[
+int ab.
+int b is 4.
+c is 50*2+3.
+]
+end
+
+% Execution -
+?- L =['start','[','int',a,b,'.','int',b,'is',4,'.',c,'is',5,0,'*',2,'+',3,'.',']',end],program(P,L,[]).
+
+% o/p -
+L = [start, '[', int, a, b, ('.'), int, b, (is), 4, ('.'), c, (is), 5, 0, (*), 2, (+), 3, ('.'), ']', end],
+P = parsetree(block(dec(dtype(int), iden(letter(a), iden(letter(b))), dec(dtype(int), assign(iden(letter(b)), arithexp(exp(factor(num(digit(4)))))))), slist(stmt(assign(iden(letter(c)), arithexp(exp(factor(num(digit(5), num(digit(0)))), resmuldiv(factor(num(digit(2))))), resarith(exp(factor(num(digit(3)))))))))))
+
+% 5
+start
+[
+c is 10*5.
+]
+end
+
+% Execution -
+L =['start','[',c,'is',1,0,'*',5,'.',']',end],program(P,L,[]).
+
+% o/p -
+L = [start, '[', c, (is), 1, 0, (*), 5, ('.'), ']', end],
+P = parsetree(block(slist(stmt(assign(iden(letter(c)), arithexp(exp(factor(num(digit(1), num(digit(0)))), resmuldiv(factor(num(digit(5)))))))))))
