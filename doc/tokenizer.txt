@@ -1,11 +1,13 @@
-module(lexer,[tokenize/2,tokenize_from_file/2]).
+:- use_module(library(pio)).
+:- use_module(library(dcg/basics))
+:- module(lexer,[tokenize/2,tokenize_from_file/2]).
 
 tokenize(String,Tokens) :- string_to_list(String,Codes),
 			   phrase(token2(Tokens),Codes).
 
 tokenize_from_file(File,Tokens) :- phrase_from_file(token2(Tokens),File).
 
-stuffs(H) :- member(H,[int,bool,true,false,if,else,while]).
+stuffs(M) :- member(M,[if,else,int,true,false,while,bool]).
 
 token2([])--> blanks.
 token2([H|T]) --> blanks, token(H), token2(T).
@@ -22,4 +24,11 @@ token(add) --> "+".
 token(subtract) --> "-".
 token(multiply) --> "*".
 token(divide) --> "/".
+
+token(keys(H)) --> val(lower,L), {atom_codes(M,L), stuffs(M)}.
+token(id(A)) --> [H], {code_type(H,alpha)}, val(alnum,K), {atom_codes(A,[H|K]), \+ stuffs(A)}.
+
+
+val(C,[H|T]) --> [H], {code_type(H,C)}, val(C,T).
+val(C,[]), [H] --> [H], {\+ code_type(H,C)}.
 
