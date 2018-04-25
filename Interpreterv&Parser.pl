@@ -131,28 +131,32 @@ l(letter(z))-->[z].
 % Date: 4/20/18
 
 %interpreter(PTokens, P, FinalEnv) :- program(PTree, PTokens, []),
-%                        Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
+%						Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
 
-interpreter(_, _, FinalEnv) :-
-PTree = parsetree(block(slist(stmt(assign(iden(letter('p')), arithexp(exp(factor(num(digit('2')))))))))),
-Env = [], evalProgram(PTree, Env, FinalEnv).
+interpreter(_, _, FinalEnv) :- 
+					PTree = parsetree(block(slist(stmt(assign(iden(letter('p')), arithexp(exp(factor(num(digit('2')))))))))),
+						Env = [], evalProgram(PTree, Env, FinalEnv).
 
 evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
 
+%evalK(block(X,Y), StartEnv, EndEnv) :- evalDeclaration(X, StartEnv, Env1), 
+	%									evalSL(Y, Env1, EndEnv).
 evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
+
+%evalDeclaration(dec(X,Y), StartEnv, EndEnv) :- 
 
 evalSL(slist(X), StartEnv, EndEnv) :- evalS(X, StartEnv, EndEnv).
 
 evalS(stmt(X), StartEnv, EndEnv) :- evalA(X, StartEnv, EndEnv).
 
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
-X = iden(letter(Z)),
-update(Z, Val, StartEnv, EndEnv).
+										evalI(X, StartEnv, Z),
+										update(Z, Val, StartEnv, EndEnv).
 
-%Tested with:
+%Tested with:										
 %?- evalI(iden(letter('p')), [(X, 3)], Result).
 %Result = p.
-evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).
+evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).									
 
 evalE(arithexp(X), StartEnv, Val) :- evalEx(X, StartEnv, Val).
 
@@ -178,6 +182,8 @@ evalDigit(digit(D),StartEnv, Val) :- eval_(D, StartEnv, Val).
 %?- evalLetter(letter('p'), [(X,3)], Res).
 %Res = p.
 evalLetter(letter(L),StartEnv, Val) :- eval_(L, StartEnv, Val).
+
+%eval_('int', _, Type) :- Type is int.
 
 eval_('0', _, Val) :- Val is 0.
 eval_('1', _, Val) :- Val is 1.
