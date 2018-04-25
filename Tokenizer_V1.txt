@@ -7,7 +7,7 @@ tokenize(Input_fileName, ListOf_Tokens) :-
  							 open(Input_fileName, read, Stream),
  							 readfrom(Stream, FileTokens),
  							 close(Stream),
-							list_cleaning(FileTokens, ListOf_Tokens).
+							list(FileTokens, ListOf_Tokens).
 
 
 %adding tokens to list
@@ -40,10 +40,10 @@ findNext(Stream, Token) :-
 
 
 
-list_cleaning([], []) :-
+list([], []) :-
   !.
-list_cleaning([''|FileTokens], ListOf_Tokens) :-
+list([''|FileTokens], ListOf_Tokens) :-
  								 !,
- 								 list_cleaning(FileTokens, ListOf_Tokens).
-list_cleaning([Token|FileTokens], [Token|ListOf_Tokens]) :-
-list_cleaning(FileTokens, ListOf_Tokens).
+ 								 list(FileTokens, ListOf_Tokens).
+list([Token|FileTokens], [Token|ListOf_Tokens]) :-
+list(FileTokens, ListOf_Tokens).
