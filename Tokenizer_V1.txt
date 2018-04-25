@@ -6,8 +6,8 @@
 tokenize(Input_fileName, ListOf_Tokens) :-
  							 open(Input_fileName, read, Stream),
  							 readfrom(Stream, FileTokens),
- 							 close(Stream),
-							list(FileTokens, ListOf_Tokens).
+ 							 close(Stream).
+							
 
 
 %adding tokens to list
@@ -22,8 +22,8 @@ readfrom(_, []).
 
 
 
-charNext(Stream, [Ascii_Char|String], Ascii_Char) :-
- 							 Ascii_Char>32,
+charNext(Stream, [Ascii|String], Ascii) :-
+ 							 Ascii>32,
  							 get0(Stream, AsciiChar_Next),
  							 !,
  							 charNext(Stream, String, AsciiChar_Next).
@@ -33,17 +33,11 @@ charNext(_, [], _).
 
 
 findNext(Stream, Token) :-
-							  get0(Stream, Ascii_Char),
- 							 charNext(Stream, String, Ascii_Char),
+							  get0(Stream, Ascii),
+ 							 charNext(Stream, String, Ascii),
 							  atom_number(Token, String),
 							  atom_codes(Token, String).
 
 
 
-list([], []) :-
-  !.
-list([''|FileTokens], ListOf_Tokens) :-
- 								 !,
- 								 list(FileTokens, ListOf_Tokens).
-list([Token|FileTokens], [Token|ListOf_Tokens]) :-
-list(FileTokens, ListOf_Tokens).
+
