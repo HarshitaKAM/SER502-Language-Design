@@ -133,9 +133,9 @@ l(letter(z))-->[z].
 %interpreter(PTokens, P, FinalEnv) :- program(PTree, PTokens, []),
 %                        Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
 
-interpreter(_, P, FinalEnv) :-
+interpreter(_, _, FinalEnv) :-
 PTree = parsetree(block(slist(stmt(assign(iden(letter('p')), arithexp(exp(factor(num(digit('2')))))))))),
-Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
+Env = [], evalProgram(PTree, Env, FinalEnv).
 
 evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
 
@@ -146,10 +146,13 @@ evalSL(slist(X), StartEnv, EndEnv) :- evalS(X, StartEnv, EndEnv).
 evalS(stmt(X), StartEnv, EndEnv) :- evalA(X, StartEnv, EndEnv).
 
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
-X = evalI(Z, StartEnv, Val),
+X = iden(letter(Z)),
 update(Z, Val, StartEnv, EndEnv).
 
-evalI(letter(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).
+%Tested with:
+%?- evalI(iden(letter('p')), [(X, 3)], Result).
+%Result = p.
+evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).
 
 evalE(arithexp(X), StartEnv, Val) :- evalEx(X, StartEnv, Val).
 
@@ -189,5 +192,3 @@ eval_('9', _, Val) :- Val is 9.
 
 
 eval_('p', _, Val) :- Val = p.
-
-
