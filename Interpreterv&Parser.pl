@@ -161,4 +161,21 @@ lookUp(X, [_ | T], V) :- lookUp(X,T,V).
 update(X,V,[],[(X,V)]).
 update(X,V,[(X,_) | T], [(X,V) | T]).
 update(X,V, [H|T], [H|Env1]) :- update(X,V,T,Env1).
+% Need to fix update for this case: update(X,5,[(X,3),(Z,2)],Result).
+
+%Works- tested with:
+%?- evalDigit(digit('3'), Val).
+%Val = 3.
+evalDigit(digit(D),StartEnv, Val) :- eval_(D, StartEnv, Val).
+
+eval_('0', _, Val) :- Val is 0.
+eval_('1', _, Val) :- Val is 1.
+eval_('2', _, Val) :- Val is 2.
+eval_('3', _, Val) :- Val is 3.
+eval_('4', _, Val) :- Val is 4.
+eval_('5', _, Val) :- Val is 5.
+eval_('6', _, Val) :- Val is 6.
+eval_('7', _, Val) :- Val is 7.
+eval_('8', _, Val) :- Val is 8.
+eval_('9', _, Val) :- Val is 9.
 
