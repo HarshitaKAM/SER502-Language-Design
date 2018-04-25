@@ -21,3 +21,8 @@ Performs one iterative execution:
 -while loop
 
 Sample Intsruction/Code to run the program:
+start
+[
+c is 10*5.
+]
+end
