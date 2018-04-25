@@ -34,7 +34,7 @@ charNext(_, [], _).
 
 findNext(Stream, Token) :-
 							  get0(Stream, Ascii_Char),
- 							 charNext(Stream, String, Ascii),
+ 							 charNext(Stream, String, Ascii_Char),
 							  atom_number(Token, String),
 							  atom_codes(Token, String).
 
