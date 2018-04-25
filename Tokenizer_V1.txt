@@ -22,8 +22,8 @@ readfrom(_, []).
 
 
 
-charNext(Stream, [Ascii|String], Ascii) :-
- 							 Ascii>32,
+charNext(Stream, [Ascii_Char|String], Ascii) :-
+ 							
  							 get0(Stream, AsciiChar_Next),
  							 !,
  							 charNext(Stream, String, AsciiChar_Next).
@@ -33,7 +33,7 @@ charNext(_, [], _).
 
 
 findNext(Stream, Token) :-
-							  get0(Stream, Ascii),
+							  get0(Stream, Ascii_Char),
  							 charNext(Stream, String, Ascii),
 							  atom_number(Token, String),
 							  atom_codes(Token, String).
