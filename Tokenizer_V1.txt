@@ -1,6 +1,7 @@
 % Tokenizer_v1 (tokenizes every single string from the input file) : NEEDS Changes
 % Author- Harshita Kajal
 
+%generates list of tokens taking file as input. Sample running code is: tokenize("document.txt", List).
 
 tokenize(Input_fileName, ListOf_Tokens) :-
  							 open(Input_fileName, read, Stream),
@@ -9,7 +10,7 @@ tokenize(Input_fileName, ListOf_Tokens) :-
 							list_cleaning(FileTokens, ListOf_Tokens).
 
 
-
+%adding tokens to list
 
 readfrom(Stream, [Token|FileTokens]) :-
  							 \+ at_end_of_stream(Stream),
