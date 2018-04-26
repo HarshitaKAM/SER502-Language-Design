@@ -6,6 +6,12 @@
 
 %adding tokens to list
 
+tokenize(Input_fileName, ListOf_Tokens) :-
+ 							 open(Input_fileName, read, Stream),
+ 							 readfrom(Stream, FileTokens),
+ 							 close(Stream),
+							generate(FileTokens, ListOf_Tokens).
+
 
 
 readfrom(Stream, [Token|FileTokens]) :-
@@ -52,10 +58,6 @@ findNext(Stream, Token) :-
 
 
 
-tokenize(Input_fileName, ListOf_Tokens) :-
- 							 open(Input_fileName, read, Stream),
- 							 readfrom(Stream, FileTokens),
- 							 close(Stream),
-							generate(FileTokens, ListOf_Tokens).
+
 
 
