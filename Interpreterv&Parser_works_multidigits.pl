@@ -134,7 +134,7 @@ l(letter(z))-->[z].
 %						Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
 
 interpreter(_, _, FinalEnv) :- 
-					PTree = parsetree(block(slist(stmt(assign(iden(letter('p')), arithexp(exp(factor(num(digit('2'))))))), slist(stmt(assign(iden(letter('q')), arithexp(exp(factor(num(digit('3'))))))))))),
+					PTree = parsetree(block(slist(stmt(assign(iden(letter('c')), arithexp(exp(factor(num(digit('1'), num(digit('2'))))))))))),
 						Env = [], evalProgram(PTree, Env, FinalEnv).
 
 evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
@@ -163,6 +163,9 @@ evalE(arithexp(X), StartEnv, Val) :- evalEx(X, StartEnv, Val).
 evalEx(exp(X), StartEnv, Val) :- evalFactor(X, StartEnv, Val).
 
 evalFactor(factor(X), StartEnv, Val) :- evalNum(X, StartEnv, Val).
+
+evalNum(num(X,Y), StartEnv, Val) :- evalDigit(X, StartEnv, Val1),
+										evalNum(Y, StartEnv, Val2),Val is (Val1*10+Val2).
 
 evalNum(num(X), StartEnv, Val) :- evalDigit(X, StartEnv, Val).
 
