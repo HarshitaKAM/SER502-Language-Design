@@ -123,6 +123,9 @@ l(letter('x'))-->['x'].
 l(letter('y'))-->['y'].
 l(letter('z'))-->['z'].
 
+l(letter('P')) --> ['P'].
+
+
 % =====================================
 
 % Interpreter
@@ -130,12 +133,12 @@ l(letter('z'))-->['z'].
 % Version: 1.0
 % Date: 4/20/18
 
-%interpreter(PTokens, P, FinalEnv) :- program(PTree, PTokens, []),
-%						Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
-
-interpreter(_, _, FinalEnv) :- 
-					PTree = parsetree(block(slist(stmtassign(assign(iden(letter('p')), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
+interpreter(PTokens, FinalEnv) :- program(PTree, PTokens, []),
 						Env = [], evalProgram(PTree, Env, FinalEnv).
+
+%interpreter(_, FinalEnv) :- 
+%					PTree = parsetree(block(slist(stmtassign(assign(iden(letter(p)), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
+%						Env = [], evalProgram(PTree, Env, FinalEnv).
 
 evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
 
@@ -219,6 +222,8 @@ eval_('7', _, Val) :- Val is 7.
 eval_('8', _, Val) :- Val is 8.
 eval_('9', _, Val) :- Val is 9.
 
+
+% May want to delete these, if tokenizer doesn't work
 eval_('a', _, Val) :- Val = a.
 eval_('b', _, Val) :- Val = b.
 eval_('c', _, Val) :- Val = c.
@@ -246,6 +251,50 @@ eval_('x', _, Val) :- Val = x.
 eval_('y', _, Val) :- Val = y.
 eval_('z', _, Val) :- Val = z.
 
+% Rules for capital letters
+eval_('A', _, Val) :- Val = a.
+eval_('B', _, Val) :- Val = b.
+eval_('C', _, Val) :- Val = c.
+eval_('D', _, Val) :- Val = d.
+eval_('E', _, Val) :- Val = e.
+eval_('F', _, Val) :- Val = f.
+eval_('G', _, Val) :- Val = g.
+eval_('H', _, Val) :- Val = h.
+eval_('I', _, Val) :- Val = i.
+eval_('J', _, Val) :- Val = j.
+eval_('K', _, Val) :- Val = k.
+eval_('L', _, Val) :- Val = l.
+eval_('M', _, Val) :- Val = m.
+eval_('N', _, Val) :- Val = n.
+eval_('O', _, Val) :- Val = o.
+eval_('P', _, Val) :- Val = p.
+eval_('Q', _, Val) :- Val = q.
+eval_('R', _, Val) :- Val = r.
+eval_('S', _, Val) :- Val = s.
+eval_('T', _, Val) :- Val = t.
+eval_('U', _, Val) :- Val = u.
+eval_('V', _, Val) :- Val = v.
+eval_('W', _, Val) :- Val = w.
+eval_('X', _, Val) :- Val = x.
+eval_('Y', _, Val) :- Val = y.
+eval_('Z', _, Val) :- Val = z.
+
+
 
 %?- interpreter(L, [], Output).
 %Output = [(p, 2),  (q, 3)] ;
+	
+
+%========================
+% File IO Predicates to be used for printint parse tree to output filefield
+writeOutputToNewFile(FileName, TextToWrite) :-
+	open(FileName,write,Stream),
+	write(Stream, TextToWrite),
+	nl(Stream),
+	close(Stream).
+
+writeOutputToExistingFile(FileName, TextToWrite) :-
+	open(FileName,append,Stream),
+	write(Stream, TextToWrite),
+	nl(Stream),
+	close(Stream).
