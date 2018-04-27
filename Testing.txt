@@ -1,0 +1,4 @@
+?- L =[start,'[','p',is,'2','.',']',end],interpreter(L, Final).
+L = [start, '[', p, is, '2', '.', ']', end],
+Final = [(p, 2)] .
+
