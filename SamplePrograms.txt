@@ -9,11 +9,11 @@ q is 3.
 end
  
 % Execution -
-?- L =['start','[','int',p,'is',2,'.',q,'is',3,'.',']','end'],program(P,L,[]).
+?- L =['start','[','int','p','is','2','.','q','is','3','.',']','end'],program(P,L,[]).
 
 % o/p - 
-L = [start, '[', int, p, (is), 2, ('.'), q, (is), 3, ('.'), ']', end],
-P = parsetree(block(dec(dtype(int), assign(iden(letter(p)), arithexp(exp(factor(num(digit(2))))))), slist(stmt(assign(iden(letter(q)), arithexp(exp(factor(num(digit(3))))))))))
+L = [start, '[', int, p, (is), '2', ('.'), q, (is), '3', ('.'), ']', end],
+P = parsetree(blockdec(deca(dtype1(int), assign(iden(letter(p)), arithexp(exp(factorn(num(digit('2'))))))), slist(stmtassign(assign(iden(letter(q)), arithexp(exp(factorn(num(digit('3'))))))))))
 
 % 2
 start
@@ -26,11 +26,11 @@ b is 4.
 end
 
 % Execution -
-?- L =['start','[','while','(',true,')','[',b,'is',4,'.',']','.',']','end'],program(P,L,[]).
+?- L =['start','[','while','(','true',')','[','b','is','4','.',']','.',']','end'],program(P,L,[]).
 
 % o/p -
-L = [start, '[', while, '(', true, ')', '[', b, (is), 4, ('.'), ']', ('.'), ']', end],
-P = parsetree(block(slist(stmt(while(boolexp(true), block(slist(stmt(assign(iden(letter(b)), arithexp(exp(factor(num(digit(4))))))))))))))
+L = [start, '[', while, '(', true, ')', '[', b, (is), '4', ('.'), ']', ('.'), ']', end],
+P = parsetree(block(slist(stmtwhile(while(boolexptrue(true), block(slist(stmtassign(assign(iden(letter(b)), arithexp(exp(factorn(num(digit('4'))))))))))))))
 
 % 3
 start
@@ -43,11 +43,11 @@ e is 1.
 end
 
 % Execution - 
-?- L =['start','[','int',a,b,'.','int',c,'.',d,'is',0,'.',e,'is',1,'.',']',end],program(P,L,[]).
+?- L =['start','[','int','a','b','.','int','c','.','d','is','0','.','e','is','1','.',']','end'],program(P,L,[]).
 
 % o/p -
-L = [start, '[', int, a, b, ('.'), int, c, ('.'), d, (is), 0, ('.'), e, (is), 1, ('.'), ']', end],
-P = parsetree(block(dec(dtype(int), iden(letter(a), iden(letter(b))), dec(dtype(int), iden(letter(c)))), slist(stmt(assign(iden(letter(d)), arithexp(exp(factor(num(digit(0))))))), slist(stmt(assign(iden(letter(e)), arithexp(exp(factor(num(digit(1)))))))))))
+L = [start, '[', int, a, b, ('.'), int, c, ('.'), d, (is), '0', ('.'), e, (is), '1', ('.'), ']', end],
+P = parsetree(blockdec(decid(dtype1(int), iden1(letter(a), iden(letter(b))), deci(dtype1(int), iden(letter(c)))), slistrec(stmtassign(assign(iden(letter(d)), arithexp(exp(factorn(num(digit('0'))))))), slist(stmtassign(assign(iden(letter(e)), arithexp(exp(factorn(num(digit('1')))))))))))
 
 % 4
 start
@@ -61,8 +61,8 @@ end
 % Execution -
 ?-L =['start','[','int','a','b','.','int','b','is','4','.','c','is','5','0','*','2','+','3','.',']','end'],program(P,L,[]).
 % o/p -
-L = [start, '[', int, a, b, ('.'), int, b, (is), 4, ('.'), c, (is), 5, 0, (*), 2, (+), 3, ('.'), ']', end],
-P = parsetree(block(dec(dtype(int), iden(letter(a), iden(letter(b))), dec(dtype(int), assign(iden(letter(b)), arithexp(exp(factor(num(digit(4)))))))), slist(stmt(assign(iden(letter(c)), arithexp(exp(factor(num(digit(5), num(digit(0)))), resmuldiv(factor(num(digit(2))))), resarith(exp(factor(num(digit(3)))))))))))
+L = [start, '[', int, a, b, ('.'), int, b, (is), '4', ('.'), c, (is), '5', '0', (*), '2', (+), '3', ('.'), ']', end],
+P = parsetree(blockdec(decid(dtype1(int), iden1(letter(a), iden(letter(b))), deca(dtype1(int), assign(iden(letter(b)), arithexp(exp(factorn(num(digit('4')))))))), slist(stmtassign(assign(iden(letter(c)), arithexp1(exp1(factorn(num1(digit('5'), num(digit('0')))), resmul2(factorn(num(digit('2'))))), resarithsum(exp(factorn(num(digit('3')))))))))))
 
 % 5
 start
@@ -72,8 +72,8 @@ c is 10*5.
 end
 
 % Execution -
-L =['start','[',c,'is',1,0,'*',5,'.',']',end],program(P,L,[]).
+L =['start','[','c','is','1','0','*','5','.',']','end'],program(P,L,[]).
 
 % o/p -
-L = [start, '[', c, (is), 1, 0, (*), 5, ('.'), ']', end],
-P = parsetree(block(slist(stmt(assign(iden(letter(c)), arithexp(exp(factor(num(digit(1), num(digit(0)))), resmuldiv(factor(num(digit(5)))))))))))
+L = [start, '[', c, (is), '1', '0', (*), '5', ('.'), ']', end],
+P = parsetree(block(slist(stmtassign(assign(iden(letter(c)), arithexp(exp1(factorn(num1(digit('1'), num(digit('0')))), resmul2(factorn(num(digit('5')))))))))))
