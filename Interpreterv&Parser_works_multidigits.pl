@@ -131,34 +131,41 @@ l(letter(z))-->[z].
 % Date: 4/20/18
 
 %interpreter(PTokens, P, FinalEnv) :- program(PTree, PTokens, []),
-%                        Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
+%						Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
 
-interpreter(_, _, FinalEnv) :-
-PTree = parsetree(block(slist(stmt(assign(iden(letter('p')), arithexp(exp(factor(num(digit('2')))))))))),
-Env = [], evalProgram(PTree, Env, FinalEnv).
+interpreter(_, _, FinalEnv) :- 
+					PTree = parsetree(block(slist(stmt(assign(iden(letter('c')), arithexp(exp(factor(num(digit('1'), num(digit('2'))))))))))),
+						Env = [], evalProgram(PTree, Env, FinalEnv).
 
 evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
 
+
 evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
 
+
+evalSL(slist(X,Y), StartEnv, EndEnv) :- evalS(X, StartEnv, Env1),
+										evalSL(Y, Env1, EndEnv).
 evalSL(slist(X), StartEnv, EndEnv) :- evalS(X, StartEnv, EndEnv).
 
 evalS(stmt(X), StartEnv, EndEnv) :- evalA(X, StartEnv, EndEnv).
 
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
-X = iden(letter(Z)),
-update(Z, Val, StartEnv, EndEnv).
+										evalI(X, StartEnv, Z),
+										update(Z, Val, StartEnv, EndEnv).
 
-%Tested with:
+%Tested with:										
 %?- evalI(iden(letter('p')), [(X, 3)], Result).
 %Result = p.
-evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).
+evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).									
 
 evalE(arithexp(X), StartEnv, Val) :- evalEx(X, StartEnv, Val).
 
 evalEx(exp(X), StartEnv, Val) :- evalFactor(X, StartEnv, Val).
 
 evalFactor(factor(X), StartEnv, Val) :- evalNum(X, StartEnv, Val).
+
+evalNum(num(X,Y), StartEnv, Val) :- evalDigit(X, StartEnv, Val1),
+										evalNum(Y, StartEnv, Val2),Val is (Val1*10+Val2).
 
 evalNum(num(X), StartEnv, Val) :- evalDigit(X, StartEnv, Val).
 
@@ -179,6 +186,7 @@ evalDigit(digit(D),StartEnv, Val) :- eval_(D, StartEnv, Val).
 %Res = p.
 evalLetter(letter(L),StartEnv, Val) :- eval_(L, StartEnv, Val).
 
+
 eval_('0', _, Val) :- Val is 0.
 eval_('1', _, Val) :- Val is 1.
 eval_('2', _, Val) :- Val is 2.
@@ -190,5 +198,33 @@ eval_('7', _, Val) :- Val is 7.
 eval_('8', _, Val) :- Val is 8.
 eval_('9', _, Val) :- Val is 9.
 
-
+eval_('a', _, Val) :- Val = a.
+eval_('b', _, Val) :- Val = b.
+eval_('c', _, Val) :- Val = c.
+eval_('d', _, Val) :- Val = d.
+eval_('e', _, Val) :- Val = e.
+eval_('f', _, Val) :- Val = f.
+eval_('g', _, Val) :- Val = g.
+eval_('h', _, Val) :- Val = h.
+eval_('i', _, Val) :- Val = i.
+eval_('j', _, Val) :- Val = j.
+eval_('k', _, Val) :- Val = k.
+eval_('l', _, Val) :- Val = l.
+eval_('m', _, Val) :- Val = m.
+eval_('n', _, Val) :- Val = n.
+eval_('o', _, Val) :- Val = o.
 eval_('p', _, Val) :- Val = p.
+eval_('q', _, Val) :- Val = q.
+eval_('r', _, Val) :- Val = r.
+eval_('s', _, Val) :- Val = s.
+eval_('t', _, Val) :- Val = t.
+eval_('u', _, Val) :- Val = u.
+eval_('v', _, Val) :- Val = v.
+eval_('w', _, Val) :- Val = w.
+eval_('x', _, Val) :- Val = x.
+eval_('y', _, Val) :- Val = y.
+eval_('z', _, Val) :- Val = z.
+
+
+%?- interpreter(L, [], Output).
+%Output = [(p, 2),  (q, 3)] ;
