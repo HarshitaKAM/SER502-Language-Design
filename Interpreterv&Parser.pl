@@ -134,7 +134,7 @@ l(letter('z'))-->['z'].
 %						Env = [(p,P)], evalProgram(PTree, Env, FinalEnv).
 
 interpreter(_, _, FinalEnv) :- 
-					PTree = parsetree(blockdec(deca(dtype1(int), assign(iden(letter(d)), arithexp(exp(factorn(num(digit('0'))))))), slist(stmtassign(assign(iden(letter(e)), arithexp(exp(factorn(num(digit('1')))))))))),
+					PTree = parsetree(block(slist(stmtassign(assign(iden(letter('p')), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
 						Env = [], evalProgram(PTree, Env, FinalEnv).
 
 evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
@@ -155,19 +155,19 @@ evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
 % Output: Type = bool
 % evalDT(dtype('int'),Type).
 % Output: Type = int
-evalDT(dtype(Type), Type).
+evalDT(dtype1(Type), Type).
 
-evalSL(slist(X,Y), StartEnv, EndEnv) :- evalS(X, StartEnv, Env1),
+evalSL(slistrec(X,Y), StartEnv, EndEnv) :- evalS(X, StartEnv, Env1),
 										evalSL(Y, Env1, EndEnv).
 evalSL(slist(X), StartEnv, EndEnv) :- evalS(X, StartEnv, EndEnv).
 
-evalS(stmt(X), StartEnv, EndEnv) :- evalA(X, StartEnv, EndEnv).
+evalS(stmtassign(X), StartEnv, EndEnv) :- evalA(X, StartEnv, EndEnv).
 
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
 										evalI(X, StartEnv, Z),
 										update(Z, Val, StartEnv, EndEnv).
 
-evalI(iden(X,Y), StartEnv, String) :- evalLetter(X, StartEnv, Val),
+evalI(iden1(X,Y), StartEnv, String) :- evalLetter(X, StartEnv, Val),
 										evalI(Y, StartEnv, Val2),
 										append(Val, Val2, String).
 
@@ -183,9 +183,9 @@ evalE(arithexp(X), StartEnv, Val) :- evalEx(X, StartEnv, Val).
 
 evalEx(exp(X), StartEnv, Val) :- evalFactor(X, StartEnv, Val).
 
-evalFactor(factor(X), StartEnv, Val) :- evalNum(X, StartEnv, Val).
+evalFactor(factorn(X), StartEnv, Val) :- evalNum(X, StartEnv, Val).
 
-evalNum(num(X,Y), StartEnv, Val) :- evalDigit(X, StartEnv, Val1),
+evalNum(num1(X,Y), StartEnv, Val) :- evalDigit(X, StartEnv, Val1),
 										evalNum(Y, StartEnv, Val2),Val is (Val1*10+Val2).
 
 evalNum(num(X), StartEnv, Val) :- evalDigit(X, StartEnv, Val).
