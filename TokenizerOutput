@@ -1,0 +1,16 @@
+%demo file input
+
+Start
+[
+Int P >> 32
+Int R + 2 .
+Q is 3 .
+P is 32
+]
+End
+
+
+%ouput from tokenizer
+
+?- tokenize("demo.txt", List).
+List = ['Start', '[', 'Q', 'Is', '3', '.', 'Int', 'P', >>|...] 
