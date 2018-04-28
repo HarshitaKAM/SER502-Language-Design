@@ -1,4 +1,4 @@
- % Tokenizer_v1 (tokenizes every single string from the input file) : 
+% Tokenizer_v1 (tokenizes every single string from the input file) : 
             % Author- Harshita Kajal
 
 %generates list of tokens taking file as input. Sample running code is: ?- tokenize("demoinput_file.txt", List).
@@ -204,18 +204,8 @@ l(letter('P')) --> ['P'].
 % Version: 1.0
 % Date: 4/20/18
 
-% Runs the interpreter and the program, writes output of parse tree and environment output to a file
-% Expected parameters:
-%		PTokens: List of tokens from the tokenizer as input for the parse tree
-%		FinalEnv: Environment after program has executed
-%		OutputFileName: Name of the file to write the parse tree and program execution results to
-interpreter(PTokens, FinalEnv, OutputFileName) :- program(PTree, PTokens, []),
-						writeOutputToNewFile(OutputFileName, "Parse Tree: "),
-						writeOutputToExistingFile(OutputFileName, PTree),
-						Env = [], 
-						evalProgram(PTree, Env, FinalEnv),
-						writeOutputToExistingFile(OutputFileName, "Final Environment: "),
-						writeOutputToExistingFile(OutputFileName, FinalEnv).
+interpreter(PTokens, FinalEnv) :- program(PTree, PTokens, []),
+						Env = [], evalProgram(PTree, Env, FinalEnv).
 
 %interpreter(_, FinalEnv) :- 
 %					PTree = parsetree(block(slist(stmtassign(assign(iden(letter(p)), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
@@ -226,6 +216,9 @@ evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
 % Blocks
 %evalK(blockdec(X,Y), StartEnv, EndEnv) :- evalDeclaration(X, StartEnv, Env1),
 %											evalSL(Y, )
+
+%evalK(blockdec(X,Y), StartEnv, EndEnv) :- evalD(X, StartEnv, EndEnv),
+ %   evalSL(Y, 
 
 evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
 
@@ -239,7 +232,7 @@ evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
 % Output: Type = bool
 % evalDT(dtype('int'),Type).
 % Output: Type = int
-evalDT(dtype1(Type), Type).
+evalDT(dtype1(int)).
 
 evalSL(slistrec(X,Y), StartEnv, EndEnv) :- evalS(X, StartEnv, Env1),
 										evalSL(Y, Env1, EndEnv).
@@ -252,9 +245,8 @@ evalS(stmtwhile(X), StartEnv, EndEnv) :- evalW(X, StartEnv, EndEnv).
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
 										evalI(X, StartEnv, Z),
 										update(Z, Val, StartEnv, EndEnv).
-
-evalW(while(X,Y), StartEnv, EndEnv) :- evalB(X, StartEnv, EndEnv),
-evalK(Y, StartEnv, EndEnv).
+evalW(while(X,Y), StartEnv, EndEnv) :- evalB(X, StartEnv, EndEnv), 
+    evalK(Y, StartEnv, EndEnv).
 
 evalB(boolexptrue(X),StartEnv, Val) :- eval_(X, StartEnv, Val).
 
@@ -268,10 +260,10 @@ evalI(iden1(X,Y), StartEnv, String) :- evalLetter(X, StartEnv, Val),
 %Tested with:										
 %?- evalI(iden(letter('p')), [(X, 3)], Result).
 %Result = p.
-evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).
+evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).									
 
-evalE(arithexp1(X,Y), StartEnv, Val) :- evalEx(X, StartEnv, Val1),
-evalRes(Y, StartEnv, Val2), Val is (Val1+Val2).
+evalE(arithexp1(X,Y), StartEnv, Val) :- evalEx(X, StartEnv, Val1), 
+    evalRes(Y, StartEnv, Val2), Val is (Val1+Val2).
 
 evalE(arithexp(X), StartEnv, Val) :- evalEx(X, StartEnv, Val).
 
@@ -280,14 +272,14 @@ evalRes(resarithsum(X), StartEnv, Val) :- evalEx(X, StartEnv, Val), Val is (Val+
 evalEx(exp(X), StartEnv, Val) :- evalFactor(X, StartEnv, Val).
 
 evalEx(exp1(X,Y), StartEnv, Val) :- evalFactor(X, StartEnv, Val1),
-evalResmd(Y, StartEnv, Val2), Val is (Val1*Val2).
+    evalResmd(Y, StartEnv, Val2), Val is (Val1*Val2).
 
 evalResmd(resmul2(X), StartEnv, Val) :- evalFactor(X, StartEnv, Val), Val is (Val*1).
 
 evalFactor(factorn(X), StartEnv, Val) :- evalNum(X, StartEnv, Val).
 
 evalNum(num1(X,Y), StartEnv, Val) :- evalDigit(X, StartEnv, Val1),
-										evalNum(Y, StartEnv, Val2),Val is (Val1*10+Val2).
+										evalNum(Y, StartEnv, Val2), Val is (Val1*10+Val2).
 
 evalNum(num(X), StartEnv, Val) :- evalDigit(X, StartEnv, Val).
 
@@ -308,6 +300,7 @@ evalDigit(digit(D),StartEnv, Val) :- eval_(D, StartEnv, Val).
 %Res = p.
 evalLetter(letter(L),StartEnv, Val) :- eval_(L, StartEnv, Val).
 
+%Value for boolean expression
 eval_('true', _, Val) :- Val = true.
 
 eval_('0', _, Val) :- Val is 0.
@@ -397,12 +390,4 @@ writeOutputToExistingFile(FileName, TextToWrite) :-
 	write(Stream, TextToWrite),
 	nl(Stream),
 	close(Stream).
-	
-%========================
-% Runs the entire program from tokenizing to output.
-% Saves results of parsetree and final environment to an output program called "ProgramOutput.txt"
-% Expected Parameters:
-%	InputFileName: Filename where the program input is stored
-% 	
-main(InputFileName, FinalEnvironment) :- tokenize(InputFileName, Tokens),
-											interpreter(Tokens, FinalEnvironment, "ProgramOutput.txt").
+
