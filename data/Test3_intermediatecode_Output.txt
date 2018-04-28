@@ -1,0 +1,4 @@
+Parse Tree: 
+parsetree(block(slist(stmtif(ifstate(boolexptrue(true),block(slist(stmtassign(assign(iden(letter(b)),arithexp(exp(factorn(num(digit(4))))))))))))))
+Final Environment: 
+[(b,4)]
