@@ -72,7 +72,7 @@ Testing was completed on a Windows machine. For Mac and Linux, the process shoul
 
 ## Running the tests
 
-To run the test cases, execute the program multiple times with the following commands:
+To run the test cases, execute the program multiple times with the following commands given to the Prolog terminal:
 
 ```
 main("Test1.hbsm", Output).
@@ -85,7 +85,7 @@ main("Test5.hbsm", Output).
 Remember: After each test, view the output file called "ProgramOutput.txt" before running the next test. Running the tests successively will overwrite the previous contents of the output file.
 
 ## Project Notes
-### Items Completed
+### Required Items Completed
 
 The following items are tested and working as expected:
 #### Arithmetic Operators: Multiplication and Addition
@@ -124,7 +124,8 @@ Work in interpreter, but tokenizer delimiting does not support multi-digit numbe
 
 
 ### Known Bugs
-#### Tokenizer delimiting: Currently, the tokenizer delimits on spaces, so there must be a space after each input token as shown in the sample programs. In order to fix this, we would need to update how the delimiting function of the tokenizing as described above.
+#### Tokenizer delimiting
+Currently, the tokenizer delimits on spaces, so there must be a space after each input token as shown in the sample programs. In order to fix this, we would need to update how the delimiting function of the tokenizing as described above.
 
 
 ## Team Working Notes
