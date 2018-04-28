@@ -1,3 +1,46 @@
+// ******Tokenizer testing only
+// Input: Read in from SamplePrograms_InputPrograms.txt file
+// Reads in this program:
+start
+[
+P is 12 .
+]
+end
+
+?- tokenize("SamplePrograms_InputPrograms.txt", TokenizerOutput).
+TokenizerOutput = [start, '[', 'P', is, '12', '.', ']', end].
+
+
+
+// Input: Read in from SamplePrograms_InputPrograms02.txt file
+// Reads in this program:
+start
+[
+p is 12 .
+]
+end
+
+?- tokenize("SamplePrograms_InputPrograms03.txt", TokenizerOutput).
+TokenizerOutput = [start, '[', p, is, '12', '.', ']', end].
+
+
+// Input: Read in from SamplePrograms_InputPrograms03.txt file
+// Reads in this program:
+start
+[
+P is 3 + 5 .
+]
+end
+
+?- tokenize("SamplePrograms_InputPrograms03.txt", TokenizerOutput).
+TokenizerOutput = [start, '[', 'P', is, '3', +, '5', '.', ']'|...].
+
+
+
+
+
+
+// ******************Testing beginning with parser to interpreter
 ?- L =[start,'[','p',is,'2','.',']',end],interpreter(L, Final).
 L = [start, '[', p, is, '2', '.', ']', end],
 Final = [(p, 2)] .
