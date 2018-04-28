@@ -109,7 +109,7 @@ s(stmtwhile(X))-->w(X).
 a(assign(X,Y))-->i(X),['is'],e(Y).
 
 % If Statement
-if(ifstate(X,Y))-->['if'],['('],b(X),[')'],k(Y).
+if(ifstate(X,Y,Z))-->['if'],['('],b(X),[')'],k(Y),['else'],k(Z).
 
 % While Statement
 w(while(X,Y))-->['while'],['('],b(X),[')'],k(Y).
@@ -251,8 +251,9 @@ interpreter(PTokens, FinalEnv, OutputFileName) :- program(PTree, PTokens, []),
 
 % used for testing while
 interpreter(_, FinalEnv) :- 
-					PTree = parsetree(block(slist(stmtif(ifstate(boolexptrue(true), block(slist(stmtassign(assign(iden(letter(b)), arithexp(exp(factorn(num(digit('4')))))))))))))),
+					PTree = parsetree(block(slist(stmtwhile(while(boolexptrue(true), block(slist(stmtassign(assign(iden(letter(b)), arithexp(exp(factorn(num(digit('4')))))))))))))),
 						Env = [], evalProgram(PTree, Env, FinalEnv).
+						
 						
 %interpreter(_, FinalEnv) :- 
 %					PTree = parsetree(block(slist(stmtassign(assign(iden(letter(p)), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
@@ -291,12 +292,12 @@ evalSL(slist(X), StartEnv, EndEnv) :- evalS(X, StartEnv, EndEnv).
 
 evalS(stmtassign(X), StartEnv, EndEnv) :- evalA(X, StartEnv, EndEnv).
 
-evalS(stmtif(X), StartEnv, EndEnv) :- evalIf(X, StartEnv, EndEnv).
+evalS(stmtwhile(X), StartEnv, EndEnv) :- evalW(X, StartEnv, EndEnv).
 
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
 										evalI(X, StartEnv, Z),
 										update(Z, Val, StartEnv, EndEnv).
-evalIf(ifstate(X,Y), StartEnv, EndEnv) :- evalB(X, StartEnv), 
+evalW(while(X,Y), StartEnv, EndEnv) :- evalB(X, StartEnv), 
    evalK(Y, StartEnv, EndEnv).
 
 evalB(boolexptrue(X),StartEnv) :- eval_(X, StartEnv).
@@ -356,8 +357,6 @@ evalLetter(letter(L),StartEnv, Val) :- eval_(L, StartEnv, Val).
 eval_('int', _).
 
 eval_('true', _).
-%eval_('if', _).
-
 
 eval_('0', _, Val) :- Val is 0.
 eval_('1', _, Val) :- Val is 1.

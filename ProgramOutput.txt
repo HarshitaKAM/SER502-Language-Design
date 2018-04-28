@@ -1,4 +1,4 @@
 Parse Tree: 
-parsetree(block(slistrec(stmtassign(assign(iden(letter(x)),arithexp1(exp(factorn(num(digit(5)))),resarithsum(exp1(factorn(num(digit(3))),resmul2(factorn(num(digit(5))))))))),slist(stmtassign(assign(iden(letter(A)),arithexp(exp(factorn(num(digit(4)))))))))))
+parsetree(block(slist(stmtassign(assign(iden(letter(P)),arithexp(exp1(factorn(num(digit(2))),resmul2(factorn(num(digit(3)))))))))))
 Final Environment: 
-[(x,20),(a,4)]
+[(p,6)]
