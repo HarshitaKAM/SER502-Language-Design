@@ -48,7 +48,8 @@ To run the code written in Habesome, save it as a file with a ".hbsm" extension.
 (If you are unable to save it as a ".hbsm" file, you can also save it as a ".txt" file, and it should function the same.)
 
 
-For Windows: 
+#### For Windows
+
 Open a command prompt and navigate to the folder containing the "Team18.pl" file.
 In the command prompt terminal, type the following, which will launch the Prolog terminal:
 ```
@@ -65,7 +66,9 @@ This will build and run the compiler and save the parse tree and program output 
 (Note that running multiple times with the same command will overwrite the contents of the output file.)
 The output will also be displayed on the terminal.
 
-End with an example of getting some data out of the system or using it for a little demo
+#### For Mac
+
+Testing was completed on a Windows machine. For Mac and Linux, the process should be similar.
 
 ## Running the tests
 
