@@ -24,7 +24,7 @@ end
 TokenizerOutput = [start, '[', p, is, '12', '.', ']', end].
 
 
-// Input: Read in from SamplePrograms_InputPrograms03.txt file
+// **********************Input: Read in from SamplePrograms_InputPrograms03.txt file
 // Reads in this program:
 start
 [
@@ -45,3 +45,17 @@ TokenizerOutput = [start, '[', 'P', is, '3', +, '5', '.', ']'|...].
 L = [start, '[', p, is, '2', '.', ']', end],
 Final = [(p, 2)] .
 
+
+
+
+// ********************* Integrated testing from tokenizer to interpreter
+// Contains this program, Writes to output file called OutputFile.txt
+start
+[
+P is 2 .
+]
+end
+ 
+
+?- main("SamplePrograms_InputPrograms04.txt", FinalEnv).
+FinalEnv = [(p, 2)] .
