@@ -1,0 +1,9 @@
+start
+[
+if ( true )
+[
+d is 6 * 7 + 2 * 8 .
+q is 3 .
+] .
+]
+end
