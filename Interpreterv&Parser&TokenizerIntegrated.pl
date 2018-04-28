@@ -259,11 +259,15 @@ evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
 %evalK(blockdec(X,Y), StartEnv, EndEnv) :- evalDeclaration(X, StartEnv, Env1),
 %											evalSL(Y, )
 
-%evalK(blockdec(X,Y), StartEnv, EndEnv) :- evalD(X, StartEnv, EndEnv),
- %   evalSL(Y, 
+evalK(blockdec(X,Y), StartEnv, EndEnv) :- evalD(X, StartEnv, EndEnv),
+evalSL(Y, StartEnv, EndEnv).
 
 evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
 
+evalD(deca(X,Y), StartEnv, EndEnv) :- evalDT(X, StartEnv),
+evalA(Y, StartEnv, EndEnv).
+
+evalDT(dtype1(X),StartEnv) :- eval_(X, StartEnv).
 
 % Declarations
 %evalDeclaration
@@ -343,6 +347,9 @@ evalDigit(digit(D),StartEnv, Val) :- eval_(D, StartEnv, Val).
 evalLetter(letter(L),StartEnv, Val) :- eval_(L, StartEnv, Val).
 
 %Value for boolean expression
+
+eval_('int', _).
+
 eval_('true', _, Val) :- Val = true.
 
 eval_('0', _, Val) :- Val is 0.
