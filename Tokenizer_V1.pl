@@ -1,4 +1,6 @@
- % Tokenizer_v1 (tokenizes every single string from the input file) : 
+%============================================================================
+
+	    % Tokenizer_v1 (tokenizes every single string from the input file) : 
             % Author- Harshita Kajal
 
 %generates list of tokens taking file as input. Sample running code is: ?- tokenize("demoinput_file.txt", List).
@@ -10,18 +12,20 @@
 
 
 
+%tokens are being read and added to the string
 
 readfrom(Stream, [Token|FileTokens]) :-
  							 \+ at_end_of_stream(Stream),
   							findNext(Stream, Token),
- 							 !,
- 							 readfrom(Stream, FileTokens).
+							 readfrom(Stream, FileTokens).
 
 
 readfrom(_, []).
 
 
 %generating tokens
+
+%generating list of tokens
 
 generate([],[]) :-
   			!.
@@ -35,7 +39,8 @@ generate([Token|FileTokens],[Token|ListOf_Tokens]) :-
 		generate(FileTokens, ListOf_Tokens).
 
 
-
+%fetching next character from the stream whose ASCII values are greater than 32.
+%and the characters are separated by space.
 
 charNext(Stream,[Ascii_Char|String],Ascii_Char) :-
                              Ascii_Char >32, %&& Ascii_Char <47 ,
@@ -67,7 +72,4 @@ findNext(Stream, Token) :-
 							  atom_codes(Token, String).
 							  %number_codes(Token, String).
 
-
-
-
-
+%============================================================
