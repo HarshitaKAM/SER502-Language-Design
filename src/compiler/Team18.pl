@@ -260,6 +260,8 @@
         evalSL(Y, Env1, EndEnv).
     evalSL(slist(X), StartEnv, EndEnv) :-
         evalS(X, StartEnv, EndEnv).
+    evalSL(slistblock(X), StartEnv, EndEnv) :-
+        evalK(X, StartEnv, EndEnv).
 
 % Statements
     evalS(stmtassign(X), StartEnv, EndEnv) :-
