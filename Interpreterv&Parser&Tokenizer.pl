@@ -204,8 +204,18 @@ l(letter('P')) --> ['P'].
 % Version: 1.0
 % Date: 4/20/18
 
-interpreter(PTokens, FinalEnv) :- program(PTree, PTokens, []),
-						Env = [], evalProgram(PTree, Env, FinalEnv).
+% Runs the interpreter and the program, writes output of parse tree and environment output to a file
+% Expected parameters:
+%		PTokens: List of tokens from the tokenizer as input for the parse tree
+%		FinalEnv: Environment after program has executed
+%		OutputFileName: Name of the file to write the parse tree and program execution results to
+interpreter(PTokens, FinalEnv, OutputFileName) :- program(PTree, PTokens, []),
+						writeOutputToNewFile(OutputFileName, "Parse Tree: "),
+						writeOutputToExistingFile(OutputFileName, PTree),
+						Env = [], 
+						evalProgram(PTree, Env, FinalEnv),
+						writeOutputToExistingFile(OutputFileName, "Final Environment: "),
+						writeOutputToExistingFile(OutputFileName, FinalEnv).
 
 %interpreter(_, FinalEnv) :- 
 %					PTree = parsetree(block(slist(stmtassign(assign(iden(letter(p)), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
@@ -369,3 +379,12 @@ writeOutputToExistingFile(FileName, TextToWrite) :-
 	write(Stream, TextToWrite),
 	nl(Stream),
 	close(Stream).
+	
+%========================
+% Runs the entire program from tokenizing to output.
+% Saves results of parsetree and final environment to an output program called "ProgramOutput.txt"
+% Expected Parameters:
+%	InputFileName: Filename where the program input is stored
+% 	
+main(InputFileName, FinalEnvironment) :- tokenize(InputFileName, Tokens),
+											interpreter(Tokens, FinalEnvironment, "ProgramOutput.txt").
