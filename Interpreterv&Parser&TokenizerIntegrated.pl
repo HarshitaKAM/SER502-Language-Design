@@ -249,6 +249,12 @@ interpreter(PTokens, FinalEnv, OutputFileName) :- program(PTree, PTokens, []),
 						writeOutputToExistingFile(OutputFileName, "Final Environment: "),
 						writeOutputToExistingFile(OutputFileName, FinalEnv).
 
+% used for testing while
+interpreter(_, FinalEnv) :- 
+					PTree = parsetree(block(slist(stmtwhile(while(boolexptrue(true), block(slist(stmtassign(assign(iden(letter(b)), arithexp(exp(factorn(num(digit('4')))))))))))))),
+						Env = [], evalProgram(PTree, Env, FinalEnv).
+						
+						
 %interpreter(_, FinalEnv) :- 
 %					PTree = parsetree(block(slist(stmtassign(assign(iden(letter(p)), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
 %						Env = [], evalProgram(PTree, Env, FinalEnv).
@@ -291,10 +297,10 @@ evalS(stmtwhile(X), StartEnv, EndEnv) :- evalW(X, StartEnv, EndEnv).
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
 										evalI(X, StartEnv, Z),
 										update(Z, Val, StartEnv, EndEnv).
-evalW(while(X,Y), StartEnv, EndEnv) :- evalB(X, StartEnv, EndEnv), 
-    evalK(Y, StartEnv, EndEnv).
+evalW(while(X,Y), StartEnv, EndEnv) :- evalB(X, StartEnv), 
+   evalK(Y, StartEnv, EndEnv).
 
-evalB(boolexptrue(X),StartEnv, Val) :- eval_(X, StartEnv, Val).
+evalB(boolexptrue(X),StartEnv) :- eval_(X, StartEnv).
 
 evalI(iden1(X,Y), StartEnv, String) :- evalLetter(X, StartEnv, Val),
 										evalI(Y, StartEnv, Val2),
@@ -350,7 +356,7 @@ evalLetter(letter(L),StartEnv, Val) :- eval_(L, StartEnv, Val).
 
 eval_('int', _).
 
-eval_('true', _, Val) :- Val = true.
+eval_('true', _).
 
 eval_('0', _, Val) :- Val is 0.
 eval_('1', _, Val) :- Val is 1.
