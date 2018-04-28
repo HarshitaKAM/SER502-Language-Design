@@ -1,4 +1,0 @@
-Parse Tree: 
-parsetree(block(slist(stmtassign(assign(iden(letter(p)),arithexp(exp(factorn(num(digit(4))))))))))
-Final Environment: 
-[(p,4)]
