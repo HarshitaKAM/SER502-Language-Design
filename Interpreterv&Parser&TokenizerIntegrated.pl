@@ -1,10 +1,3 @@
-% Steps to run:
-% 1. Create text file with the program contents. Save with a .hbsm file extension.
-% 2. Use this command to run: "main("fileName.hdsm", Output)."
-% Example: Given the file name, "testFile.hdsm"
-% Run with: "main("testFile.hdsm", Output)."
-
-
 % Tokenizer_v1 (tokenizes every single string from the input file) : 
             % Author- Harshita Kajal
 
@@ -201,7 +194,34 @@ l(letter('x'))-->['x'].
 l(letter('y'))-->['y'].
 l(letter('z'))-->['z'].
 
+
+l(letter('A'))-->['A'].
+l(letter('B'))-->['B'].
+l(letter('C')) --> ['C'].
+l(letter('D'))-->['D'].
+l(letter('E'))-->['E'].
+l(letter('F'))-->['F'].
+l(letter('G'))-->['G'].
+l(letter('H'))-->['H'].
+l(letter('I'))-->['I'].
+l(letter('J'))-->['J'].
+l(letter('K'))-->['K'].
+l(letter('L'))-->['L'].
+l(letter('M'))-->['M'].
+l(letter('N'))-->['N'].
+l(letter('O'))-->['O'].
 l(letter('P')) --> ['P'].
+l(letter('Q'))-->['Q'].
+l(letter('R'))-->['R'].
+l(letter('S'))-->['S'].
+l(letter('T'))-->['T'].
+l(letter('U'))-->['U'].
+l(letter('V'))-->['V'].
+l(letter('W'))-->['W'].
+l(letter('X'))-->['X'].
+l(letter('Y'))-->['Y'].
+l(letter('Z'))-->['Z'].
+%l(letter('P')) --> ['P'].
 
 
 % =====================================
