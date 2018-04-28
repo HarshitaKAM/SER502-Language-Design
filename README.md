@@ -93,7 +93,7 @@ The following items are tested and working as expected:
 #### Variable assignment for single letter variable names
 #### Single digit numbers
 
-### Required Items Not Implemented in Interpreter
+### Required Items Partially Implemented in Interpreter
 
 The following items function in our grammar and parser, but were not implemented in our compiler. Since we know how to implement them, we are providing an explanation of that, as we did not have time to get them fully functioning.
 #### While Loops
@@ -117,7 +117,7 @@ Our interpreter supports successive block statements, as well as nested block st
 #### Left-associativity and Operator precedence
 Our language is left associative and follows the conventional rules of mathematics for operator precedence (e.g., multiplication before addition)
 #### Multiple, successive statements
-Our language supports statements that are listed successively. Varioius combinations of our functioning portions can be implemented to achieve the expected output.
+Our language supports statements that are listed successively. Various combinations of our functioning portions can be implemented to achieve the expected output.
 #### Multi-digit numbers
 Numbers with two or more digits work in the interpreter and are evaluated correctly. However, our tokenizer delimits on spaces, so numbers with two or more digits are tokenized correctly. Thus, we are unable to provide these in our test programs. In order to support these, we would need to update how the tokenizer delimits, using a function called "look ahead" to determine if the next token is a number or letter. Based on this, it could tokenize correctly.
 Work in interpreter, but tokenizer delimiting does not support multi-digit numbers.
