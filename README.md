@@ -2,7 +2,7 @@
 
 This repository contains the compiler design project for Team 18 for SER 502 at Arizona State University in the Spring 2018 semester.
 
-Team Members:
+## Team Members
 
 Melissa Day
 
@@ -12,13 +12,16 @@ Behnaz Sabbaghi
 
 Harshita Kajal
 
+## Language Information
+
 The language is called Habesome. It was developed in Prolog.
 
+## Video Link
 
 Video presentation can be viewed at: [link to video].
 
 
-The repository structure is:
+## Repository structure
 
 src/ - Includes compiler and runtime subdirectories containing the sourcecode
 
