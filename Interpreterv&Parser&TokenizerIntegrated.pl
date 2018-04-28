@@ -1,3 +1,81 @@
+% Steps to run:
+% 1. Create text file with the program contents. Save with a .hbsm file extension.
+% 2. Use this command to run: "main("fileName.hdsm", Output)."
+% Example: Given the file name, "testFile.hdsm"
+% Run with: "main("testFile.hdsm", Output)."
+
+
+% Tokenizer_v1 (tokenizes every single string from the input file) : 
+            % Author- Harshita Kajal
+
+%generates list of tokens taking file as input. Sample running code is: ?- tokenize("demoinput_file.txt", List).
+
+
+%adding tokens to list
+
+
+
+
+
+
+readfrom(Stream, [Token|FileTokens]) :-
+ 							 \+ at_end_of_stream(Stream),
+  							findNext(Stream, Token),
+ 							 !,
+ 							 readfrom(Stream, FileTokens).
+
+
+readfrom(_, []).
+
+
+%generating tokens
+
+generate([],[]) :-
+  			!.
+
+
+generate([''|FileTokens],ListOf_Tokens) :-
+ 								 !,
+ 								 generate(FileTokens, ListOf_Tokens).
+								 
+generate([Token|FileTokens],[Token|ListOf_Tokens]) :-
+		generate(FileTokens, ListOf_Tokens).
+
+
+
+
+charNext(Stream,[Ascii_Char|String],Ascii_Char) :-
+                             Ascii_Char >32, %&& Ascii_Char <47 ,
+ 							 get0(Stream, AsciiChar_Next),
+ 							 !,
+ 							 charNext(Stream, String, AsciiChar_Next).
+
+
+charNext(_,[], _).
+
+
+
+
+
+tokenize(Input_fileName,ListOf_Tokens) :-
+ 							 open(Input_fileName, read, Stream),
+ 							 readfrom(Stream, FileTokens),
+ 							 close(Stream),
+							generate(FileTokens, ListOf_Tokens).
+
+
+
+
+findNext(Stream, Token) :-
+							  get0(Stream, Ascii_Char),
+ 							 charNext(Stream, String, Ascii_Char),
+							  %atom_number(Token, String),
+							  %atom_strings(Token, String).
+							  atom_codes(Token, String).
+							  %number_codes(Token, String).
+
+%============================================================
+
 % DCG (Parser) for grammar
 % Author: Sowmya Madabhushi
 % Version: 1.4
@@ -133,8 +211,18 @@ l(letter('P')) --> ['P'].
 % Version: 1.0
 % Date: 4/20/18
 
-interpreter(PTokens, FinalEnv) :- program(PTree, PTokens, []),
-						Env = [], evalProgram(PTree, Env, FinalEnv).
+% Runs the interpreter and the program, writes output of parse tree and environment output to a file
+% Expected parameters:
+%		PTokens: List of tokens from the tokenizer as input for the parse tree
+%		FinalEnv: Environment after program has executed
+%		OutputFileName: Name of the file to write the parse tree and program execution results to
+interpreter(PTokens, FinalEnv, OutputFileName) :- program(PTree, PTokens, []),
+						writeOutputToNewFile(OutputFileName, "Parse Tree: "),
+						writeOutputToExistingFile(OutputFileName, PTree),
+						Env = [], 
+						evalProgram(PTree, Env, FinalEnv),
+						writeOutputToExistingFile(OutputFileName, "Final Environment: "),
+						writeOutputToExistingFile(OutputFileName, FinalEnv).
 
 %interpreter(_, FinalEnv) :- 
 %					PTree = parsetree(block(slist(stmtassign(assign(iden(letter(p)), arithexp(exp(factorn(num1(digit('1'), num(digit('2'))))))))))),
@@ -145,6 +233,9 @@ evalProgram(parsetree(X), StartEnv, EndEnv) :- evalK(X, StartEnv, EndEnv).
 % Blocks
 %evalK(blockdec(X,Y), StartEnv, EndEnv) :- evalDeclaration(X, StartEnv, Env1),
 %											evalSL(Y, )
+
+%evalK(blockdec(X,Y), StartEnv, EndEnv) :- evalD(X, StartEnv, EndEnv),
+ %   evalSL(Y, 
 
 evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
 
@@ -158,7 +249,7 @@ evalK(block(X), StartEnv, EndEnv) :- evalSL(X, StartEnv, EndEnv).
 % Output: Type = bool
 % evalDT(dtype('int'),Type).
 % Output: Type = int
-evalDT(dtype1(Type), Type).
+evalDT(dtype1(int)).
 
 evalSL(slistrec(X,Y), StartEnv, EndEnv) :- evalS(X, StartEnv, Env1),
 										evalSL(Y, Env1, EndEnv).
@@ -166,9 +257,15 @@ evalSL(slist(X), StartEnv, EndEnv) :- evalS(X, StartEnv, EndEnv).
 
 evalS(stmtassign(X), StartEnv, EndEnv) :- evalA(X, StartEnv, EndEnv).
 
+evalS(stmtwhile(X), StartEnv, EndEnv) :- evalW(X, StartEnv, EndEnv).
+
 evalA(assign(X,Y), StartEnv, EndEnv) :- evalE(Y, StartEnv, Val),
 										evalI(X, StartEnv, Z),
 										update(Z, Val, StartEnv, EndEnv).
+evalW(while(X,Y), StartEnv, EndEnv) :- evalB(X, StartEnv, EndEnv), 
+    evalK(Y, StartEnv, EndEnv).
+
+evalB(boolexptrue(X),StartEnv, Val) :- eval_(X, StartEnv, Val).
 
 evalI(iden1(X,Y), StartEnv, String) :- evalLetter(X, StartEnv, Val),
 										evalI(Y, StartEnv, Val2),
@@ -182,14 +279,24 @@ evalI(iden1(X,Y), StartEnv, String) :- evalLetter(X, StartEnv, Val),
 %Result = p.
 evalI(iden(X), StartEnv, Val) :- evalLetter(X, StartEnv, Val).									
 
+evalE(arithexp1(X,Y), StartEnv, Val) :- evalEx(X, StartEnv, Val1), 
+    evalRes(Y, StartEnv, Val2), Val is (Val1+Val2).
+
 evalE(arithexp(X), StartEnv, Val) :- evalEx(X, StartEnv, Val).
 
+evalRes(resarithsum(X), StartEnv, Val) :- evalEx(X, StartEnv, Val), Val is (Val+0).
+
 evalEx(exp(X), StartEnv, Val) :- evalFactor(X, StartEnv, Val).
+
+evalEx(exp1(X,Y), StartEnv, Val) :- evalFactor(X, StartEnv, Val1),
+    evalResmd(Y, StartEnv, Val2), Val is (Val1*Val2).
+
+evalResmd(resmul2(X), StartEnv, Val) :- evalFactor(X, StartEnv, Val), Val is (Val*1).
 
 evalFactor(factorn(X), StartEnv, Val) :- evalNum(X, StartEnv, Val).
 
 evalNum(num1(X,Y), StartEnv, Val) :- evalDigit(X, StartEnv, Val1),
-										evalNum(Y, StartEnv, Val2),Val is (Val1*10+Val2).
+										evalNum(Y, StartEnv, Val2), Val is (Val1*10+Val2).
 
 evalNum(num(X), StartEnv, Val) :- evalDigit(X, StartEnv, Val).
 
@@ -210,6 +317,8 @@ evalDigit(digit(D),StartEnv, Val) :- eval_(D, StartEnv, Val).
 %Res = p.
 evalLetter(letter(L),StartEnv, Val) :- eval_(L, StartEnv, Val).
 
+%Value for boolean expression
+eval_('true', _, Val) :- Val = true.
 
 eval_('0', _, Val) :- Val is 0.
 eval_('1', _, Val) :- Val is 1.
@@ -298,3 +407,12 @@ writeOutputToExistingFile(FileName, TextToWrite) :-
 	write(Stream, TextToWrite),
 	nl(Stream),
 	close(Stream).
+
+%========================
+% Runs the entire program from tokenizing to output.
+% Saves results of parsetree and final environment to an output program called "ProgramOutput.txt"
+% Expected Parameters:
+%	InputFileName: Filename where the program input is stored, Extension should be .hbsm
+% 	
+main(InputFileName, FinalEnvironment) :- tokenize(InputFileName, Tokens),
+											interpreter(Tokens, FinalEnvironment, "ProgramOutput.txt").
