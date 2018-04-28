@@ -3,6 +3,6 @@ start
 if ( true )
 [
 b is 4 .
-]
+] .
 ]
 end

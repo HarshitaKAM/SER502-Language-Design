@@ -88,7 +88,7 @@
     a(assign(X,Y))-->i(X),['is'],e(Y).
 
 % If Statement
-    if(ifstate(X,Y,Z))-->['if'],['('],b(X),[')'],k(Y),['else'],k(Z).
+    if(ifstate(X,Y))-->['if'],['('],b(X),[')'],k(Y).
 
 % While Statement
     w(while(X,Y))-->['while'],['('],b(X),[')'],k(Y).
@@ -266,6 +266,8 @@
         evalA(X, StartEnv, EndEnv).
     evalS(stmtwhile(X), StartEnv, EndEnv) :-
         evalW(X, StartEnv, EndEnv).
+	evalS(stmtif(X), StartEnv, EndEnv) :-
+        evalIf(X, StartEnv, EndEnv).
 
 % Assignment Assignment
     evalA(assign(X,Y), StartEnv, EndEnv) :-
@@ -273,14 +275,19 @@
         evalI(X, StartEnv, Z),
         update(Z, Val, StartEnv, EndEnv).
 
+% If Statements
+	evalIf(ifstate(X,Y), StartEnv, EndEnv) :- 
+		evalB(X, StartEnv), 
+		evalK(Y, StartEnv, EndEnv).
+		
 % While Statements
     evalW(while(X,Y), StartEnv, EndEnv) :-
-        evalB(X, StartEnv, EndEnv),
+        evalB(X, StartEnv),
         evalK(Y, StartEnv, EndEnv).
 
 % Boolean Expressions
-    evalB(boolexptrue(X),StartEnv, Val) :-
-        eval_(X, StartEnv, Val).
+    evalB(boolexptrue(X),StartEnv) :- eval_(X, StartEnv).
+
 
 % Identifier
     evalI(iden1(X,Y), StartEnv, String) :-
@@ -346,7 +353,7 @@
     eval_('int', _).
 
 % Terminal : Boolean Value
-    eval_('true', _, Val) :- Val = true.
+    eval_('true', _).
 
 % Terminal : Digits
     eval_('0', _, Val) :- Val is 0.
