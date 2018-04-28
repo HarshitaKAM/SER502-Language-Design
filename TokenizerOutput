@@ -2,10 +2,8 @@
 
 Start
 [
-Int P >> 32
-Int R + 2 .
-Q is 3 .
-P is 32
+Q Is 3 .
+Int P >> 3
 ]
 End
 
