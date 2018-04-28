@@ -1,8 +1,0 @@
-Summary of Interpreter:
-Working
-Letters to strings
-Single digit numbers parsed to strings
-
-
-Not Working
-Multidigit numbers
