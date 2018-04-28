@@ -1,0 +1,4 @@
+Parse Tree: 
+parsetree(block(slistrec(stmtassign(assign(iden(letter(a)),arithexp(exp(factorn(num(digit(4))))))),slistblock(block(slistrec(stmtassign(assign(iden(letter(b)),arithexp(exp(factorn(num(digit(3))))))),slistblock(block(slist(stmtassign(assign(iden(letter(c)),arithexp(exp(factorn(num(digit(5))))))))))))))))
+Final Environment: 
+[(a,4),(b,3),(c,5)]
