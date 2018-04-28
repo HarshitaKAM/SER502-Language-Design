@@ -1,0 +1,4 @@
+Parse Tree: 
+parsetree(block(slist(stmtassign(assign(iden(letter(z)),arithexp1(exp1(factorn(num(digit(5))),resmul2(factorn(num(digit(2))))),resarithsum(exp(factorn(num(digit(3)))))))))))
+Final Environment: 
+[(z,13)]
