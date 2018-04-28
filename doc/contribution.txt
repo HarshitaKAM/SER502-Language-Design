@@ -68,5 +68,6 @@ Tasks Division :
 Interpreter : Sowmya & Melissa
 Tokenizer & PPT: Harshita
 Fixes and Documentation : All members of the team. 
+[No contribution from Behnaz] -> [elaborated in ReadMe]
 
 *********************************
