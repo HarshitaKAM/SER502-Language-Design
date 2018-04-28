@@ -1,4 +1,4 @@
-﻿Milestone 2:
+Milestone 2:
 The duration for this was from 3/24 to 4/6
 
 Team member names:
@@ -40,9 +40,33 @@ All the members of the team will have individual branches on GitHub through whic
 
 
 *******Discussion: 4/10**********
+
 We divided the tasks to be completed. We will use partner programming for our next set of tasks.
 The next deadline we set will be Sunday, 4/15. Partners should have their initial version completed by this date.
-
-Tokenizer: Behnaz & Harshita
+Tokeniser: Behnaz & Harshita
 Parser: Melissa & Sowmya
 Deadline: Sunday, 4/15
+
+******** Week 4/15-4/21 **********
+
+The Tokeniser and Parser codes were supposed to be completed by the beginning of this week. But it took longer than anticipated and hence the same tasks were moved onto this week in addition to the programming of interpreter. 
+Sample programs were written along the way in order to test the Tokeniser, Parser and Interpreter. 
+Certain defects were observed in the grammar which were corrected during the same week. 
+The tasks were performed as follows :
+Tokeniser: Harshitha
+Parser & Sample Programs : Sowmya 
+Parser & Interpreter : Melissa. 
+[No contribution from Behnaz] -> [elaborated in ReadMe]
+
+******** Week 4/22-4/28 **********
+
+By the beginning of this week Parser and Tokeniser were completed, although they still had some minor fixes which were completed during the week. 
+The coding of Interpreter continued, followed by writing new test cases in order to make sure that the programs were working as desired.
+The video was created and uploaded on youtube. 
+Powerpoint was made and everything was finalised. 
+Tasks Division :
+Interpreter : Sowmya & Melissa
+PPT : Harshitha
+Fixes and Documentation : All members of the team. 
+
+*********************************
