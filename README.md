@@ -18,7 +18,7 @@ The language is called Habesome. It was developed in Prolog.
 
 ## Video Link
 
-Video presentation can be viewed at: [link to video].
+Video presentation can be viewed at: https://youtu.be/2LtqRqBYfpw
 
 
 ## Repository structure
